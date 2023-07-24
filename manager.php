@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>                                                                                                      <?php header("Refresh:60"); ?>
-        <title>Tickets</title>
+    <head>                                                              <?php header("Refresh:30"); ?>
+        <title>MANAGER</title>
 
         <style>
             
@@ -37,7 +37,7 @@
     <body>
         <center>
         <h1>
-            SENHA
+            MANAGER
         </h1>
         </center>
 
@@ -54,42 +54,35 @@
                     <td>
                         <!-- Standard Tickets Form -->
                         <div class = "form-container">
+                            
                             <form method="post">
-                                <input type="submit" name="gen_standardt" value="New Standard">
+                                <input type="submit" name="call_standardt" value="Call Standard">
                             </form>
 
                             <!--<form method="post">
-                                <input type="submit" name="last_standardt" value="Last Standard">
-                            </form>
-
-                            <form method="post">
                                 <input type="submit" name="first5_standardt" value="First 5 Standard">
-                            </form>
+                            </form>-->
 
                             <form method="post">
                                 <input type="submit" name="reset_stdt" value="Reset Standard">
-                            </form>-->
+                            </form>
                         </div>
                     </td>
                     <td>
                         <!-- Preferetial Tickets Form -->
                         <div class = "form-container">
-            
+
                             <form method="post">
-                                <input type="submit" name="gen_preferentialt" value="New preferential">
+                                <input type="submit" name="call_preferentialt" value="Call Preferential">
                             </form>
                             
                             <!--<form method="post">
-                                <input type="submit" name="last_preferentialt" value="Last Preferential">
-                            </form>
-                            
-                            <form method="post">
                                 <input type="submit" name="first5_preferentialt" value="First 5 Preferential">
-                            </form>
+                            </form>-->
                             
                             <form method="post">
                                 <input type="submit" name="reset_preft" value="Reset Preferential">
-                            </form>-->
+                            </form>
                         </div>
                     </td>
                 </tr>
@@ -104,28 +97,24 @@
 
                             //Standard Tickets
 
-                            if (isset($_POST['gen_standardt']))
+                            if (isset($_POST['call_standardt']))
                             {
-                                echo 'New standard ticket: S' . $stdt = gen_stdt();     
+                                update_calledstdt();
+                                echo sel_calledstdt();
                             }
-
-                            //if (isset($_POST['last_standardt']))
-                            //{
-                            //    echo "Previous Standard Ticket: " . $last_stdt = stdt_exhibit();
-                            //}
                         
                             //if (isset($_POST['first5_standardt']))
                             //{
                             //    echo "first 5 Standard Tickets: S" . $first5_stdt = get_first5_stdt();
                             //}
 
-                            //if (isset($_POST['reset_stdt']))
-                            //{
-                            //    //reset_stdt();
-                            //    echo reset_stdt();
-                            //}
+                            if (isset($_POST['reset_stdt']))
+                            {
+                                //reset_stdt();
+                                echo reset_stdt();
+                            }
 
-                            if (empty($_POST['gen_standardt']))
+                            if (empty($_POST['first5_standardt']) && empty($_POST['last_standardt']) && empty($_POST['reset_stdt']))
                             {
                                 $last_stdt = stdt_exhibit();
                                 if($last_stdt == 0)
@@ -145,28 +134,24 @@
                         <?php
                             //Preferential Tickets
 
-                            if (isset($_POST['gen_preferentialt']))
+                            if (isset($_POST['call_preferentialt']))
                             {
-                                echo 'New preferential ticket: P' . $preft = gen_preft();     
+                                update_calledpreft();
+                                echo sel_calledpreft();
                             }
-
-                            //if (isset($_POST['last_preferentialt']))
-                            //{
-                            //    echo "Previous preferential Ticket: " . $last_preft = preft_exhibit();
-                            //}
 
                             //if (isset($_POST['first5_preferentialt']))
                             //{
                             //    echo "first 5 preferential Tickets: P" . $first5_preft = get_first5_preft();
                             //}
 
-                            //if (isset($_POST['reset_preft']))
-                            //{
-                            //    //reset_preft();
-                            //    echo reset_preft();
-                            //}
+                            if (isset($_POST['reset_preft']))
+                            {
+                                //reset_preft();
+                                echo reset_preft();
+                            }
 
-                            if (empty($_POST['gen_preferentialt']))
+                            if (empty($_POST['first5_preferentialt']) && empty($_POST['last_preferentialt']) && empty($_POST['reset_preft']))
                             {
                                 $last_preft = preft_exhibit();
                                 if($last_preft == 0)
@@ -179,10 +164,46 @@
                                 }
                             }
                         ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php
+                            $result = $conn -> query($select_newstd_sql);
 
+                            if($result)
+                            {
+                                while ($row = $result -> fetch_assoc())
+                                {
+                                    echo "ID: " . $row['id'] .
+                                    " - - - Ticket: S" . $row['value'] . 
+                                    " - - - Type: " . $row['type'] . 
+                                    " - - - Status: " . $row['status'] . 
+                                    " - - - Time: " . $row['time'] . 
+                                    " - - - Call Time: " . $row['calltime']. "<br>";
+                                }
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                            $result = $conn -> query($select_newpref_sql);
+
+                            if($result)
+                            {
+                                while ($row = $result -> fetch_assoc())
+                                {
+                                    echo "ID: " . $row['id'] .
+                                    " - - - Ticket: S" . $row['value'] . 
+                                    " - - - Type: " . $row['type'] . 
+                                    " - - - Status: " . $row['status'] . 
+                                    " - - - Time: " . $row['time'] . 
+                                    " - - - Call Time: " . $row['calltime']. "<br>";
+                                }
+                            }
+                        ?>
                     </td>
                 </tr>
             </table>
-
     </body>
 </html>
